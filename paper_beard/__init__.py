@@ -51,3 +51,7 @@ def check(path_to_file):
 
     print("Getting Google Scholar results for PDF completed...")
     return raw_scholar_data["results"][0]
+
+
+class Result(object):
+    pass

@@ -3,6 +3,7 @@
 
 """
 import argparse
+from io import StringIO
 import time
 import paper_beard.export
 import os
@@ -17,10 +18,12 @@ contained PDFs."""
 
 
 class App(object):
-    def run(self, args):
-        csvOutputFile = open(args.outputCSVFile, "w")
+
+    @staticmethod
+    def run(arguments):
+        csv_file = open(arguments.outputCSVFile, "w")
         result = []
-        for root, directories, filenames in os.walk(args.inputFolder):
+        for root, directories, filenames in os.walk(arguments.inputFolder):
             for filename in filenames:
                 # Get the full path to the file
                 path_to_file = os.path.join(root, filename)
@@ -28,9 +31,11 @@ class App(object):
                 # Wait a moment to avoid getting tagged as a bot...
                 time.sleep(0.5 + 3 * random.random())
         result = list(filter(None.__ne__, result))
-        paper_beard.export.csv(result, csvOutputFile)
+        buffer = StringIO()
+        buffer = paper_beard.export.csv_export(result, buffer)
+        csv_file.write(buffer.getvalue())
 
-        csvOutputFile.close()
+        csv_file.close()
         print("Getting Google Scholar results for PDF completed...")
 
 
@@ -42,4 +47,4 @@ if __name__ == '__main__':
     parser.add_argument('outputCSVFile',
                         help='The csv file where the extracted information about the PDF files will be written.')
     args = parser.parse_args()
-    App().run(args)
+    App.run(args)
