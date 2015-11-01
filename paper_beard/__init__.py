@@ -50,7 +50,9 @@ def check(path_to_file):
         return
 
     print("Getting Google Scholar results for PDF completed...")
-    return raw_scholar_data["results"][0]
+    result = raw_scholar_data["results"][0]
+    result['author'] = author
+    return result
 
 
 class Result(object):

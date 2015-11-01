@@ -13,3 +13,6 @@ class TestExport(TestCase):
         buffer.write.assert_any_call("title;author;year;citations;link;excerpt\r\n")
         buffer.write.assert_any_call("foo;bar;baz;foo;bar;baz\r\n")
         self.assertEqual(2, len(buffer.write.mock_calls))
+
+    def test_bibtex(self):
+        pass

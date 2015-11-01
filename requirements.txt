@@ -17,3 +17,4 @@ python-dateutil==2.4.2
 requests==2.5.1
 requests-oauthlib==0.4.2
 six==1.10.0
+pybtex==0.19
