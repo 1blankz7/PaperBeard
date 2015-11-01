@@ -30,7 +30,7 @@ def csv_export(data, buffer) -> StringIO:
     writer = csv.DictWriter(
         buffer,
         delimiter=';',
-        quotechar='|',
+        quotechar='"',
         quoting=csv.QUOTE_MINIMAL,
         fieldnames=OrderedDict(map(lambda x: tuple([x, None]), exportable_fields)),
         extrasaction='ignore'
@@ -61,4 +61,5 @@ def bibtex_export(data, buffer) -> StringIO:
     bibliography = BibliographyData(
         entries=[[e.key, create_entry(e)] for e in data]
     )
-    return buffer.write(bibliography.to_string("bibtex"))
+    buffer.write(bibliography.to_string("bibtex"))
+    return buffer

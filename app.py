@@ -5,6 +5,7 @@
 import argparse
 from io import StringIO
 import time
+from paper_beard.engine import Just
 import paper_beard.export
 import os
 import paper_beard
@@ -21,7 +22,7 @@ class App(object):
 
     @staticmethod
     def run(arguments):
-        csv_file = open(arguments.outputCSVFile, "w")
+        output_file = open(arguments.outputCSVFile, "w")
         result = []
         for root, directories, filenames in os.walk(arguments.inputFolder):
             for filename in filenames:
@@ -30,12 +31,12 @@ class App(object):
                 result.append(paper_beard.check(path_to_file))
                 # Wait a moment to avoid getting tagged as a bot...
                 time.sleep(0.5 + 3 * random.random())
-        result = list(filter(None.__ne__, result))
+        result = list(map(lambda x: x.value, filter(lambda x: type(x) is Just, result)))
         buffer = StringIO()
         buffer = paper_beard.export.csv_export(result, buffer)
-        csv_file.write(buffer.getvalue())
+        output_file.write(buffer.getvalue())
 
-        csv_file.close()
+        output_file.close()
         print("Getting Google Scholar results for PDF completed...")
 
 

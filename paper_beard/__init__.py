@@ -5,7 +5,7 @@ Main module of PaperBeard.
 import os
 from paper_beard import pdf_tools
 from paper_beard import pdf_title
-from pyGoogleSearch import Google
+import paper_beard.engine
 
 
 def check(path_to_file):
@@ -35,25 +35,6 @@ def check(path_to_file):
     # Get the name of the author from the metadata
     author = pdf_tools.get_author(path_to_file)
 
-    search_string = title
-    if author is not None:
-        search_string += " " + author
-
-    raw_scholar_data = Google(search_string, pages=1).search_scholar()
-
-    if len(raw_scholar_data["results"]) == 0:
-        print(
-            "No Google Scholar result for file %s with search string '%s' found. This file will be skipped." %
-            (path_to_file, search_string)
-        )
-        print("----")
-        return
-
+    result = paper_beard.engine.google_scholar(title, author=author)
     print("Getting Google Scholar results for PDF completed...")
-    result = raw_scholar_data["results"][0]
-    result['author'] = author
     return result
-
-
-class Result(object):
-    pass
