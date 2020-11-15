@@ -1,46 +1,14 @@
-#!/usr/bin/env python
-
-# gscholar - Get bibtex entries from Goolge Scholar
-# Copyright (C) 2011-2015  Bastian Venthur <venthur at debian org>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or (at
-# your option) any later version.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-
-
 """
 Library to query Google Scholar.
 
 Call the method query with a string which contains the full search
 string. Query will return a list of citations.
-
 """
+from urllib.parse import quote
+from urllib.request import Request, urlopen
+
+from html.entities import name2codepoint
 from paper_beard import pdf_tools
-
-try:
-    # python 2
-    from urllib2 import Request, urlopen, quote
-except ImportError:
-    # python 3
-    from urllib.request import Request, urlopen, quote
-
-try:
-    # python 2
-    from htmlentitydefs import name2codepoint
-except ImportError:
-    # python 3
-    from html.entities import name2codepoint
 
 import re
 import hashlib
